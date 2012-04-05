@@ -1,0 +1,22 @@
+Snippets actuales
+
+sfctrl: esqueleto para nuevo controlador
+sfctrlem: obtiene entity manager en controlador
+sfctrlfn: esqueleto para función en controlador (action)
+sfctrlfrm: esqueleto para función con validación de formulario en controlador (action)
+sfenty: esqueleto para nueva entidad
+sfentyui: esqueleto para nueva entidad con implementación de UserInterface
+sfform: esqueleto para nuevo formulario
+sfrepo: esqueleto para nuevo repositorio
+sfrepoem: obtiene entity manager en repositorio
+sfrepofn: esqueleto para función en repositorio
+
+Estandarización
+
+Con el objetivo de mantener estandarizados los snippets y hacernos fácil la tarea de recordarlos cuando la cantidad se incremente he definido el siguiente estandar para el nombramiento de los mismos (ej: sfctrlfn).
+
+[sf][ctrl][fn]
+
+La dos primeras letras corresponderan a symfony (sf)
+Las cuatro letras siguientes identificaran el "namespace" (ctrl: controllador, repo: repositorio, enty: entidad, form: formulario)
+Las letras desde la 7 en adelante representarán una puntualidad (fn: función, ui: user interfaces, etc.)
