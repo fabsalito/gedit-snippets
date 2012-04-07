@@ -1,15 +1,20 @@
 Snippets actuales
 
-sfctrl: esqueleto para nuevo controlador
-sfctrlem: obtiene entity manager en controlador
-sfctrlfn: esqueleto para función en controlador (action)
-sfctrlfrm: esqueleto para función con validación de formulario en controlador (action)
-sfenty: esqueleto para nueva entidad
-sfentyui: esqueleto para nueva entidad con implementación de UserInterface
-sfform: esqueleto para nuevo formulario
-sfrepo: esqueleto para nuevo repositorio
+-- CONTROLLER --
+sfctrl: esqueleto para nuevo controller
+sfctrlem: obtiene entity manager en controller
+sfctrlfn: esqueleto para nueva función en controller (action)
+sfctrlfrmper: esqueleto para nueva función que procesa formulario de perfil en controller (action)
+sfctrlfrmreg: esqueleto para nueva función que procesa formulario de registro en controller (action)
+-- ENTITY --
+sfenty: esqueleto para nueva entity
+sfentyui: esqueleto para nueva entity con implementación de UserInterface
+-- REPOSITORY --
+sfrepo: esqueleto para nuevo repositorio 
 sfrepoem: obtiene entity manager en repositorio
-sfrepofn: esqueleto para función en repositorio
+sfrepofn: esqueleto para nueva función en repositorio
+-- FORM --
+sfform: esqueleto para nuevo formulario
 
 Estandarización
 

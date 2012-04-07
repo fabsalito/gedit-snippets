@@ -13,28 +13,6 @@ class ${3:controllerName}Controller extends Controller
 	${0:# code...}
 }]]></text>
     <tag>sfctrl</tag>
-    <description>sf2 - basic controller</description>
-  </snippet>
-  <snippet>
-    <text><![CDATA[public function ${1:functionName}Action () {
-	${0: #code...}
-}]]></text>
-    <tag>sfact</tag>
-    <description>sf2 - controller action</description>
-  </snippet>
-  <snippet>
-    <text><![CDATA[<?php
-
-namespace ${1:projectName}\\${2:bundleName}Bundle\Controller;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-
-class ${3:controllerName}Controller extends Controller
-{
-		${0:# code...}
-}]]></text>
-    <tag>sfctrl</tag>
     <description>sf2 - controller</description>
   </snippet>
   <snippet>
@@ -45,7 +23,7 @@ $em = $this->getDoctrine()->getEntityManager();]]></text>
   </snippet>
   <snippet>
     <text><![CDATA[public function ${1:functionName}Action () {
-		${0: #code...}
+	${0: #code...}
 }]]></text>
     <tag>sfctrlfn</tag>
     <description>sf2 - controller function</description>
@@ -53,38 +31,75 @@ $em = $this->getDoctrine()->getEntityManager();]]></text>
   <snippet>
     <text><![CDATA[public function ${1:functionName}Action()
 {
-		// obtiene petición
-		$peticion = $this->getRequest();
-		      
-		// crea objeto a relacionar con formulario
-		$usuario = new ${2:bindObject}();
+	// obtiene petición
+	$peticion = $this->getRequest();
+	      
+	// crea objeto a relacionar con formulario
+	$entityForm = $this->get('security.context')->getToken()->getUser();
 
-		// crea formulario
-		$formulario = $this->createForm(new ${3:formType}Type(), ${2:bindObject});
+	// crea formulario
+	$formulario = $this->createForm(new ${3:formType}Type(), $entityForm);
 
-		// verifica método de llamada
-		if ('POST' == $peticion->getMethod()) {
-				// bindea los datos de la petición
-				$formulario->bindRequest($peticion);
-				
-				// valida formulario
-				if ($formulario->isValid()) {
-				   
-				   # code (IS VALID) here...
-				   
-				   // redirecciona
-				   return $this->redirect($this->generateUrl('${4:routeName}', array(${5:arrayContent})));
-				}
-		}
-	
-		# code (IS NOT POST) here...
-	
-		return $this->render('${6:bundleName}Bundle:${7:controllerName}:${8:twigFile}.html.twig',
-				array('formulario' => $formulario->createView())
-		);
+	// verifica método de llamada
+	if ('POST' == $peticion->getMethod()) {
+			// bindea los datos de la petición
+			$formulario->bindRequest($peticion);
+			
+			// valida formulario
+			if ($formulario->isValid()) {
+			   
+			   # code (IS VALID) here...
+			   
+			   // redirecciona
+			   return $this->redirect($this->generateUrl('${4:routeName}', array(${5:arrayContent})));
+			}
+	}
+
+	# code (IS NOT POST) here...
+
+	return $this->render('${6:bundleName}Bundle:${7:controllerName}:${8:twigFile}.html.twig', array(
+			'${9:entityTwigVar}' => $entityForm,
+			'formulario' => $formulario->createView()
+	));
 }]]></text>
-    <tag>sfctrlfrm</tag>
-    <description>sf2 - controller function form</description>
+    <tag>sfctrlfrmper</tag>
+    <description>sf2 - controller function form perfil</description>
+  </snippet>
+  <snippet>
+    <text><![CDATA[public function ${1:functionName}Action()
+{
+	// obtiene petición
+	$peticion = $this->getRequest();
+	      
+	// crea objeto a relacionar con formulario
+	$entityForm = new ${2:bindObject}();
+
+	// crea formulario
+	$formulario = $this->createForm(new ${3:formType}Type(), $entityForm);
+
+	// verifica método de llamada
+	if ('POST' == $peticion->getMethod()) {
+			// bindea los datos de la petición
+			$formulario->bindRequest($peticion);
+			
+			// valida formulario
+			if ($formulario->isValid()) {
+			   
+			   # code (IS VALID) here...
+			   
+			   // redirecciona
+			   return $this->redirect($this->generateUrl('${4:routeName}', array(${5:arrayContent})));
+			}
+	}
+
+	# code (IS NOT POST) here...
+
+	return $this->render('${6:bundleName}Bundle:${7:controllerName}:${8:twigFile}.html.twig', array(
+			'formulario' => $formulario->createView()
+	));
+}]]></text>
+    <tag>sfctrlfrmreg</tag>
+    <description>sf2 - controller function form registro</description>
   </snippet>
   <snippet>
     <text><![CDATA[<?php
@@ -96,15 +111,10 @@ use Doctrine\ORM\Mapping as ORM;
 /** @ORM\Entity(repositoryClass="${1:projectName}\\${2:bundleName}Bundle\Entity\\${3:entityName}Repository") */
 class ${3:entityName}
 {
-		${0:#code...}
+	${0:#code...}
 }]]></text>
     <tag>sfenty</tag>
     <description>sf2 - entity</description>
-  </snippet>
-  <snippet>
-    <text><![CDATA[$em = $this->getDoctrine()->getEntityManager();]]></text>
-    <tag>sfemc</tag>
-    <description>sf2 - entity manager controller</description>
   </snippet>
   <snippet>
     <text><![CDATA[<?php
@@ -117,95 +127,57 @@ use Doctrine\ORM\Mapping as ORM;
 /** @ORM\Entity(repositoryClass="${1:projectName}\\${2:bundleName}Bundle\Entity\\${3:entityName}Repository") */
 class ${3:entityName} implements UserInterface
 {
-    /**
-    * Método requerido por la interfaz UserInterface
-    */
-    function equals(\Symfony\Component\Security\Core\User\UserInterface $usuario)
-    {
-        return $this->getLogin() == $usuario->getLogin();
-    }
-    
-    /**
-    * Método requerido por la interfaz UserInterface
-    */
-    function eraseCredentials()
-    {
-    }
-    
-    /**
-    * Método requerido por la interfaz UserInterface
-    */
-    function getRoles()
-    {
-        return array('${4:role}');
-    }
-    
-    /**
-    * Método requerido por la interfaz UserInterface
-    */
-    function getUsername()
-    {
-        return $this->getLogin();
-    }
-    
-    /**
-    * Método requerido por la interfaz UserInterface
-    */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-    
-    /**
-    * Método requerido por la interfaz UserInterface
-    */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
+  /**
+  * Método requerido por la interfaz UserInterface
+  */
+  function equals(\Symfony\Component\Security\Core\User\UserInterface $usuario)
+  {
+      return $this->getLogin() == $usuario->getLogin();
+  }
+  
+  /**
+  * Método requerido por la interfaz UserInterface
+  */
+  function eraseCredentials()
+  {
+  }
+  
+  /**
+  * Método requerido por la interfaz UserInterface
+  */
+  function getRoles()
+  {
+      return array('${4:role}');
+  }
+  
+  /**
+  * Método requerido por la interfaz UserInterface
+  */
+  function getUsername()
+  {
+      return $this->getLogin();
+  }
+  
+  /**
+  * Método requerido por la interfaz UserInterface
+  */
+  public function getPassword()
+  {
+      return $this->password;
+  }
+  
+  /**
+  * Método requerido por la interfaz UserInterface
+  */
+  public function getSalt()
+  {
+      return $this->salt;
+  }
 
-		${0:#code...}   
+	${0:#code...}   
 }]]></text>
     <tag>sfentyui</tag>
     <description>sf2 - entity ui</description>
-  </snippet>
-  <snippet>
-    <text><![CDATA[public function ${1:functionName}Action()
-{
-	// obtiene petición
-	$peticion = $this->getRequest();
-		      
-	// crea objeto a relacionar con formulario
-	$usuario = new ${2:bindObject}();
-
-	// crea formulario
-	$formulario = $this->createForm(new ${3:formType}Type(), ${2:bindObject});
-
-	// verifica método de llamada
-	if ('POST' == $peticion->getMethod()) {
-		  // bindea los datos de la petición
-		  $formulario->bindRequest($peticion);
-		  
-		  // valida formulario
-		  if ($formulario->isValid()) {
-		     
-		     # code (IS VALID) here...
-		     
-		     // redirecciona
-		     return $this->redirect($this->generateUrl('${4:routeName}', array(${5:arrayContent})));
-		  }
-		  
-	}
-	
-	# code (IS NOT POST) here...
-	
-  return $this->render('${6:bundleName}Bundle:${7:controllerName}:${8:twigFile}.html.twig',
-  	array('formulario' => $formulario->createView())
-	);
-
-}]]></text>
-    <tag>sffrmact</tag>
-    <description>sf2 - form action</description>
   </snippet>
   <snippet>
     <text><![CDATA[<?php
@@ -217,20 +189,20 @@ use Symfony\Component\Form\FormBuilder;
 
 class ${3:formName}Type extends AbstractType
 {
-    // form builder
-    public function buildForm(FormBuilder $builder, array $options)
-    {
-        $builder
-            ->add('${4:field1}')
-            ->add('${5:field2}')
-            ;
-    }
+  // form builder
+  public function buildForm(FormBuilder $builder, array $options)
+  {
+      $builder
+          ->add('${4:field1}')
+          ->add('${5:field2}')
+          ;
+  }
 
-    // form name
-    public function getName()
-    {
-        return '${3:formName}';
-    }
+  // form name
+  public function getName()
+  {
+      return '${3:formName}';
+  }
 }]]></text>
     <tag>sfform</tag>
     <description>sf2 - form</description>
@@ -244,7 +216,7 @@ use Doctrine\ORM\EntityRepository;
 
 class ${3:repoName}Repository extends EntityRepository
 {
-		${0: #code...}
+	${0: #code...}
 }
 ]]></text>
     <tag>sfrepo</tag>
@@ -260,25 +232,25 @@ $em = $this->getEntityManager();
   <snippet>
     <text><![CDATA[public function find${1:functionName}($limite = null)
 {
-		// obtiene entity manager
-		$em = $this->getEntityManager();
+	// obtiene entity manager
+	$em = $this->getEntityManager();
 
-		// arma consulta DQL
-		$dql = '${2:dqlQuery}';
+	// arma consulta DQL
+	$dql = '${2:dqlQuery}';
 
-		// crea consulta
-		$consulta = $em->createQuery($dql);
+	// crea consulta
+	$consulta = $em->createQuery($dql);
 
-		// define valores para parámetros
-		$consulta->setParameter('${3:parameterName}', ${4:parameterValue});
+	// define valores para parámetros
+	$consulta->setParameter('${3:parameterName}', ${4:parameterValue});
 
-		// define cantidad máxima de registros a retornar
-		if (null != $limite){
-		    $consulta->setMaxResults($limite);
-		}
+	// define cantidad máxima de registros a retornar
+	if (null != $limite){
+	    $consulta->setMaxResults($limite);
+	}
 
-		// devuelve resultado
-		return $consulta->getResult();
+	// devuelve resultado
+	return $consulta->getResult();
 }]]></text>
     <tag>sfrepofn</tag>
     <description>sf2 - repository function</description>
